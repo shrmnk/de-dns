@@ -52,6 +52,21 @@ group :development, :test do
 
   # Used to seed data in test environments
   gem 'ffaker', require: false
+
+  # Test fixtures
+  gem 'factory_bot_rails'
+
+  # Code coverage
+  gem 'simplecov', require: false
+
+  # One-liner RSpec helper
+  gem 'shoulda-matchers'
+
+  # Controller matchers
+  gem 'rails-controller-testing'
+
+  # Format RSpec results in JUnit format for circleci
+  gem 'rspec_junit_formatter'
 end
 
 group :development do
@@ -69,23 +84,6 @@ group :development do
 
   # Detect N+1 issues
   gem 'bullet'
-end
-
-group :test do
-  # Test fixtures
-  gem 'factory_bot_rails'
-
-  # Code coverage
-  gem 'simplecov', require: false
-
-  # One-liner RSpec helper
-  gem 'shoulda-matchers'
-
-  # Controller matchers
-  gem 'rails-controller-testing'
-
-  # Format RSpec results in JUnit format for circleci
-  gem 'rspec_junit_formatter'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
