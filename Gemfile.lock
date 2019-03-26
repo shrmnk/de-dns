@@ -59,6 +59,7 @@ GEM
     async-rest (0.7.3)
       async-http (~> 0.37)
       http-protocol (~> 0.14)
+    backport (0.3.0)
     bcrypt (3.1.12)
     bootsnap (1.4.2)
       msgpack (~> 1.0)
@@ -94,6 +95,7 @@ GEM
     ffi (1.10.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    htmlentities (4.3.4)
     http-hpack (0.1.1)
     http-protocol (0.15.0)
       http-hpack (~> 0.1.0)
@@ -104,6 +106,7 @@ GEM
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     json (2.2.0)
+    kramdown (1.17.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -176,6 +179,8 @@ GEM
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
+    reverse_markdown (1.1.0)
+      nokogiri
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.2)
@@ -212,6 +217,17 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    solargraph (0.31.3)
+      backport (~> 0.3)
+      htmlentities (~> 4.3, >= 4.3.4)
+      jaro_winkler (~> 1.5)
+      kramdown (~> 1.16)
+      parser (~> 2.3)
+      reverse_markdown (~> 1.0, >= 1.0.5)
+      rubocop (~> 0.52)
+      thor (~> 0.19, >= 0.19.4)
+      tilt (~> 2.0)
+      yard (~> 0.9)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -226,6 +242,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (0.20.3)
     thread_safe (0.3.6)
+    tilt (2.0.9)
     timers (4.3.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
@@ -236,6 +253,7 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    yard (0.9.18)
 
 PLATFORMS
   ruby
@@ -261,6 +279,7 @@ DEPENDENCIES
   rubocop
   shoulda-matchers
   simplecov
+  solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

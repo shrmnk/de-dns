@@ -87,6 +87,9 @@ group :development do
 
   # Detect N+1 issues
   gem 'bullet'
+
+  # Solargraph for dev
+  gem 'solargraph'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
