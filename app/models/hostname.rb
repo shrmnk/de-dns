@@ -8,11 +8,19 @@ class Hostname < ApplicationRecord
   delegate :cloudflare_account, to: :zone, allow_nil: false
   delegate :user, to: :cloudflare_account, allow_nil: false
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :a, presence: true
+
+  validate :name_must_end_with_zone
 
   def records
     @records ||= retrieve_records
+  end
+
+  def name_must_end_with_zone
+    return if name.ends_with?(zone.name)
+
+    errors.add(:name, "must end with the zone (#{zone.name})")
   end
 
   private
@@ -35,8 +43,10 @@ class Hostname < ApplicationRecord
     records
   end
 
+  # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
   def update_cloudflare
     return unless changed?
+
     Cloudflare.connect(cloudflare_credentials) do |connection|
       # rubocop:disable Rails/DynamicFindBy
       dns_records = connection.zones.find_by_id(zone.identifier).dns_records
@@ -46,21 +56,22 @@ class Hostname < ApplicationRecord
         next unless valid_types.include?(type)
 
         _old_value, new_value = *values
-        type_upcase = type.upcase
+        type = type.upcase
         # Make sure there are no trailing spaces
         new_value.chomp!
 
-        records = dns_records.each(name: name, type: type_upcase).to_a
+        records = dns_records.each(name: name, type: type).to_a
         begin
           if records.any?
-            logger.info "> Updating prior record of type #{type_upcase} for #{name} in #{zone.name} (#{records.first.to_s})"
+            logger.info "Updating #{type} record for #{name} (#{records.first})"
             records.first.update_content(new_value)
           else
-            logger.info "> No prior records of type #{type_upcase} for #{name} in #{zone.name}. Creating..."
-            dns_records.create(type_upcase, name, new_value, proxied: false)
+            logger.info "No #{type} records for #{name}"
+            dns_records.create(type, name, new_value, proxied: false)
           end
         rescue Cloudflare::RequestError => e
-          errors.add(type.to_sym, "Record API Error: #{e.message[e.message.index('>') + 3..-1]}")
+          error_message = e.message[e.message.index('>') + 3..-1]
+          errors.add(type.to_sym, "Record API Error: #{error_message}")
         end
       end
     end
@@ -68,6 +79,7 @@ class Hostname < ApplicationRecord
     # Rollback update if there were any API errors
     raise ActiveRecord::Rollback, 'API Errors' if errors.any?
   end
+  # rubocop:enable Metrics/MethodLength,Metrics/AbcSize
 
   def valid_types
     @valid_types ||= %w[a aaaa mx]
