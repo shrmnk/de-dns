@@ -36,7 +36,8 @@ gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS)
+# making cross-origin AJAX possible
 # gem 'rack-cors'
 
 group :development, :test do
@@ -47,7 +48,6 @@ group :development, :test do
   gem 'pry-rails'
 
   # Testing framework
-  # :development group to expose generators and rake tasks without RAILS_ENV=test
   gem 'rspec-rails'
 
   # Used to seed data in test environments
@@ -75,8 +75,8 @@ group :development do
 
   # FS changes listener
   gem 'listen', '>= 3.0.5', '< 3.2'
-  
-  # Spring speeds up development by keeping your application running in the background.
+
+  # Spring speeds up development by keeping your app running in the background.
   gem 'spring'
 
   # Read more: https://github.com/rails/spring
@@ -87,4 +87,4 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

@@ -1,0 +1,49 @@
+AllCops:
+  TargetRubyVersion: 2.5.5
+  Exclude:
+    - .gems/**/*
+    - bin/**/*
+    - config/**/*
+    - db/**/*
+    - log/**/*
+    - public/**/*
+    - tmp/**/*
+    - vendor/**/*
+    - spec/**/*
+    - config.ru
+    - Procfile
+    - Rakefile
+    - README.md
+    - lib/tasks/**/*
+
+Rails:
+  Enabled: true
+
+Bundler/GemComment:
+  Enabled: true
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_special
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_special
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - lib/tasks/**/*
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  AutoCorrect: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
