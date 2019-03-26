@@ -5,12 +5,18 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins 'example.com'
-#
-#     resource '*',
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins "#{ENV['APP_PROTOCOL']}://#{ENV['APP_HOST']}:#{ENV['APP_PORT']}"
+
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+    
+    resource '/api/*',
+      headers: %w(Authorization),
+      methods: [:get, :post, :put, :patch, :delete],
+      expose: %w(Authorization),
+      max_age: 600
+  end
+end
