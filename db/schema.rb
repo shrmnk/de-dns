@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_171327) do
+ActiveRecord::Schema.define(version: 2019_03_26_180644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 2019_03_26_171327) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_cloudflare_accounts_on_user_id"
+  end
+
+  create_table "hostnames", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "a", null: false
+    t.string "aaaa"
+    t.string "mx"
+    t.bigint "zone_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["zone_id"], name: "index_hostnames_on_zone_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,4 +57,5 @@ ActiveRecord::Schema.define(version: 2019_03_26_171327) do
     t.index ["cloudflare_account_id"], name: "index_zones_on_cloudflare_account_id"
   end
 
+  add_foreign_key "hostnames", "zones"
 end

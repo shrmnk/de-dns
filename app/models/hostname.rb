@@ -1,0 +1,76 @@
+require 'cloudflare'
+
+class Hostname < ApplicationRecord
+  before_save :update_cloudflare
+
+  belongs_to :zone, inverse_of: :hostnames
+
+  delegate :cloudflare_account, to: :zone, allow_nil: false
+  delegate :user, to: :cloudflare_account, allow_nil: false
+
+  validates :name, presence: true
+  validates :a, presence: true
+
+  def records
+    @records ||= retrieve_records
+  end
+
+  private
+
+  def cloudflare_credentials
+    @cloudflare_credentials ||= {
+      key: cloudflare_account.key,
+      email: cloudflare_account.email
+    }
+  end
+
+  def retrieve_records
+    records = nil
+    Cloudflare.connect(cloudflare_credentials) do |connection|
+      # rubocop:disable Rails/DynamicFindBy
+      cf_zone = connection.zones.find_by_id(zone.identifier)
+      # rubocop:enable Rails/DynamicFindBy
+      records = cf_zone.dns_records.each(name: name).map(&:value)
+    end
+    records
+  end
+
+  def update_cloudflare
+    return unless changed?
+    Cloudflare.connect(cloudflare_credentials) do |connection|
+      # rubocop:disable Rails/DynamicFindBy
+      dns_records = connection.zones.find_by_id(zone.identifier).dns_records
+      # rubocop:enable Rails/DynamicFindBy
+
+      changes.each do |type, values|
+        next unless valid_types.include?(type)
+
+        _old_value, new_value = *values
+        type_upcase = type.upcase
+        # Make sure there are no trailing spaces
+        new_value.chomp!
+
+        records = dns_records.each(name: name, type: type_upcase).to_a
+        begin
+          if records.any?
+            logger.info "> Updating prior record of type #{type_upcase} for #{name} in #{zone.name} (#{records.first.to_s})"
+            records.first.update_content(new_value)
+          else
+            logger.info "> No prior records of type #{type_upcase} for #{name} in #{zone.name}. Creating..."
+            dns_records.create(type_upcase, name, new_value, proxied: false)
+          end
+        rescue Cloudflare::RequestError => e
+          errors.add(type.to_sym, "Record API Error: #{e.message[e.message.index('>') + 3..-1]}")
+        end
+      end
+    end
+
+    # Rollback update if there were any API errors
+    raise ActiveRecord::Rollback, 'API Errors' if errors.any?
+  end
+
+  def valid_types
+    @valid_types ||= %w[a aaaa mx]
+  end
+
+end

@@ -3,6 +3,8 @@ require 'cloudflare'
 class Zone < ApplicationRecord
   belongs_to :cloudflare_account, inverse_of: :zones
 
+  has_many :hostnames, inverse_of: :zone, dependent: :destroy
+
   delegate :user, to: :cloudflare_account, allow_nil: false
 
   validates :identifier, presence: true
