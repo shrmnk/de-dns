@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: de-dns_production
-  username: de-dns
-  password: <%= ENV['DE-DNS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
