@@ -40,6 +40,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# We use Cloudflare to back our domains
+gem 'cloudflare', require: false
+
 group :development, :test do
   # Load environment variables from .env into ENV in development
   gem 'dotenv-rails'
