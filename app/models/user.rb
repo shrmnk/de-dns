@@ -10,4 +10,6 @@ class User < ApplicationRecord
   has_many :zones, through: :cloudflare_accounts, dependent: :destroy
   has_many :hostnames, through: :zones, dependent: :destroy
 
+  validates :email, presence: true, format: Devise.email_regexp
+
 end

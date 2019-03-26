@@ -18,6 +18,7 @@ class Hostname < ApplicationRecord
   end
 
   def name_must_end_with_zone
+    return if name.nil?
     return if name.ends_with?(zone.name)
 
     errors.add(:name, "must end with the zone (#{zone.name})")
