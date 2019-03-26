@@ -33,12 +33,15 @@ gem 'aasm'
 # Flexible authentication solution for Rails with Warden.
 gem 'devise'
 
+# JWT
+gem 'devise-jwt'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS)
 # making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 # We use Cloudflare to back our domains
 gem 'cloudflare', require: false
