@@ -15,7 +15,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     
     resource '/api/*',
       headers: %w(Authorization),
-      methods: [:get, :post, :put, :patch, :delete],
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
       expose: %w(Authorization),
       max_age: 600
   end
