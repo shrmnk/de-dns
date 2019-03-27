@@ -1,6 +1,8 @@
 require 'cloudflare'
 
 class Hostname < ApplicationRecord
+  include CloudflareConcern
+
   before_save :update_cloudflare
 
   belongs_to :zone, inverse_of: :hostnames
@@ -14,7 +16,7 @@ class Hostname < ApplicationRecord
   validate :name_must_end_with_zone
 
   def records
-    @records ||= retrieve_records
+    @records ||= retrieve_dns_records(zone.identifier, name: name)
   end
 
   def name_must_end_with_zone
@@ -25,24 +27,6 @@ class Hostname < ApplicationRecord
   end
 
   private
-
-  def cloudflare_credentials
-    @cloudflare_credentials ||= {
-      key: cloudflare_account.key,
-      email: cloudflare_account.email
-    }
-  end
-
-  def retrieve_records
-    records = nil
-    Cloudflare.connect(cloudflare_credentials) do |connection|
-      # rubocop:disable Rails/DynamicFindBy
-      cf_zone = connection.zones.find_by_id(zone.identifier)
-      # rubocop:enable Rails/DynamicFindBy
-      records = cf_zone.dns_records.each(name: name).map(&:value)
-    end
-    records
-  end
 
   # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
   def update_cloudflare
