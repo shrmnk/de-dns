@@ -13,5 +13,11 @@ Rails.application.routes.draw do
 
   scope :api, defaults: { format: :json } do
     resources :hostnames, only: [:index, :show], param: :name, constraints: { name: /[0-z\.]+/ }
+    resources :zones, only: [:index, :show], param: :name, constraints: { name: /[0-z\.]+/ }
+
+    resources :cloudflare_account, only: [] do
+      resources :zones, only: [:create, :new]
+    end
+
   end
 end
