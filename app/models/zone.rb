@@ -9,8 +9,8 @@ class Zone < ApplicationRecord
 
   delegate :user, to: :cloudflare_account, allow_nil: false
 
-  validates :identifier, presence: true
-  validates :name, presence: true
+  validates :identifier, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def records
     @records ||= retrieve_dns_records(identifier)
