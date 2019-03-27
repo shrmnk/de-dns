@@ -6,7 +6,10 @@ class CloudflareAccount < ApplicationRecord
   has_many :zones, inverse_of: :cloudflare_account, dependent: :destroy
   has_many :hostnames, through: :zones, dependent: :destroy
 
-  validates :email, presence: true, format: Devise.email_regexp
+  validates :email,
+            presence: true,
+            format: Devise.email_regexp,
+            uniqueness: { case_sensitive: false }
   validates :key, presence: true
 
   def display_name
