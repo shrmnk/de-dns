@@ -34,4 +34,8 @@ class ApplicationController < ActionController::API
     Bullet.enable = previous_value
   end
 
+  def fallback_index_html
+    render file: 'public/index.html'
+  end
+
 end

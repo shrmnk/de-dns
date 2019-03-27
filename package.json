@@ -1,0 +1,12 @@
+{
+  "name": "de-dns",
+  "engines": {
+    "node": "10.15.0",
+    "yarn": "1.15.2"
+  },
+  "scripts": {
+    "build": "yarn --cwd client install --frozen-lockfile && yarn --cwd client build",
+    "deploy": "rm -rf public/ && mkdir public && cp -a client/build/. public/",
+    "heroku-postbuild": "yarn build && yarn deploy"
+  }
+}
