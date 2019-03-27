@@ -9,18 +9,18 @@ module CloudflareConcern
   end
 
   def retrieve_dns_records(identifier, **opts)
-    records = nil
+    results = nil
     Cloudflare.connect(cloudflare_credentials) do |connection|
       # rubocop:disable Rails/DynamicFindBy
       cf_zone = connection.zones.find_by_id(identifier)
       # rubocop:enable Rails/DynamicFindBy
-      records = if opts.present?
+      results = if opts.present?
                   cf_zone.dns_records.each(opts).to_a.map(&:value)
                 else
                   cf_zone.dns_records.map(&:value)
                 end
     end
-    records
+    results
   end
 
   def a_records
