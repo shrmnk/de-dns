@@ -27,10 +27,6 @@ module CloudflareConcern
     records_by_type('A')
   end
 
-  def cname_records
-    records_by_type('CNAME')
-  end
-
   def aaaa_records
     records_by_type('AAAA')
   end
@@ -46,7 +42,7 @@ module CloudflareConcern
   end
 
   def valid_type?(type)
-    %w[A AAAA CNAME TXT MX].include?(type)
+    %w[A AAAA MX].include?(type)
   end
 
 end

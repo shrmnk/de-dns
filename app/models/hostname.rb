@@ -38,11 +38,10 @@ class Hostname < ApplicationRecord
       # rubocop:enable Rails/DynamicFindBy
 
       changes.each do |type, values|
-        next unless valid_types.include?(type)
+        type = type.upcase
+        next unless valid_type?(type)
 
         _old_value, new_value = *values
-        type = type.upcase
-        # Make sure there are no trailing spaces
         new_value.chomp!
 
         records = dns_records.each(name: name, type: type).to_a
@@ -65,9 +64,5 @@ class Hostname < ApplicationRecord
     raise ActiveRecord::Rollback, 'API Errors' if errors.any?
   end
   # rubocop:enable Metrics/MethodLength,Metrics/AbcSize
-
-  def valid_types
-    @valid_types ||= %w[a aaaa mx]
-  end
 
 end
