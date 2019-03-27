@@ -1,8 +1,10 @@
 require 'cloudflare'
+require 'securerandom'
 
 class Hostname < ApplicationRecord
   include CloudflareConcern
 
+  after_validation :generate_token
   before_save :update_cloudflare
 
   belongs_to :zone, inverse_of: :hostnames
@@ -28,9 +30,14 @@ class Hostname < ApplicationRecord
 
   private
 
+  def generate_token
+    self.token = SecureRandom.hex if token.blank?
+  end
+
   # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
   def update_cloudflare
     return unless changed?
+    return if errors.any?
 
     Cloudflare.connect(cloudflare_credentials) do |connection|
       # rubocop:disable Rails/DynamicFindBy
@@ -44,13 +51,13 @@ class Hostname < ApplicationRecord
         _old_value, new_value = *values
         new_value.chomp!
 
-        records = dns_records.each(name: name, type: type).to_a
+        current_records = dns_records.each(name: name, type: type).to_a
         begin
-          if records.any?
-            logger.info "Updating #{type} record for #{name} (#{records.first})"
-            records.first.update_content(new_value)
+          if current_records.any?
+            logger.info "Updating #{type} record for #{name} (#{current_records.first})"
+            current_records.first.update_content(new_value)
           else
-            logger.info "No #{type} records for #{name}"
+            logger.info "No existing #{type} records for #{name}"
             dns_records.create(type, name, new_value, proxied: false)
           end
         rescue Cloudflare::RequestError => e
