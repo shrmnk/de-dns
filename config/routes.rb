@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :hostnames, only: [:index, :show], param: :name, constraints: { name: /[0-z\.]+/ }
     resources :zones, only: [:index, :show], param: :name, constraints: { name: /[0-z\.]+/ }
 
-    resources :cloudflare_account, only: [] do
+    resources :cloudflare_accounts, only: [:index, :show] do
       resources :zones, only: [:create, :new]
     end
 
