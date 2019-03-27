@@ -10,5 +10,8 @@ Rails.application.routes.draw do
                sessions: 'sessions',
                registrations: 'registrations'
              }
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  scope :api, defaults: { format: :json } do
+    resources :hostnames, only: [:index, :show], param: :name, constraints: { name: /[0-z\.]+/ }
+  end
 end
