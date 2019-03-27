@@ -14,11 +14,11 @@ module CloudflareConcern
       # rubocop:disable Rails/DynamicFindBy
       cf_zone = connection.zones.find_by_id(identifier)
       # rubocop:enable Rails/DynamicFindBy
-      if opts.present?
-        records = cf_zone.dns_records.each(opts).to_a.map(&:value)
-      else
-        records = cf_zone.dns_records.map(&:value)
-      end
+      records = if opts.present?
+                  cf_zone.dns_records.each(opts).to_a.map(&:value)
+                else
+                  cf_zone.dns_records.map(&:value)
+                end
     end
     records
   end

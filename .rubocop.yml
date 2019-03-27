@@ -47,3 +47,8 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/LineLength:
+  IgnoredPatterns:
+    - \#
+    - logger

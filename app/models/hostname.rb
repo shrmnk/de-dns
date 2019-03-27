@@ -34,7 +34,7 @@ class Hostname < ApplicationRecord
     self.token = SecureRandom.hex if token.blank?
   end
 
-  # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength,Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
   def update_cloudflare
     return unless changed?
     return if errors.any?
@@ -54,7 +54,7 @@ class Hostname < ApplicationRecord
         current_records = dns_records.each(name: name, type: type).to_a
         begin
           if current_records.any?
-            logger.info "Updating #{type} record for #{name} (#{current_records.first})"
+            logger.info "Updating #{type} record for #{current_records.first}"
             current_records.first.update_content(new_value)
           else
             logger.info "No existing #{type} records for #{name}"
@@ -70,6 +70,6 @@ class Hostname < ApplicationRecord
     # Rollback update if there were any API errors
     raise ActiveRecord::Rollback, 'API Errors' if errors.any?
   end
-  # rubocop:enable Metrics/MethodLength,Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength,Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
 
 end
