@@ -13,12 +13,14 @@ RSpec.describe 'POST /signup', type: :request do
   context 'when user is unauthenticated' do
     before { post url, params: params.to_json, headers: headers }
 
+    let(:json) { JSON.parse(response.body) }
+
     it 'returns 200' do
       expect(response.status).to eq 200
     end
 
     it 'returns a new user' do
-      expect(response.body).to include(params[:user][:email])
+      expect(json['email']).to eq(params[:user][:email])
     end
   end
 
