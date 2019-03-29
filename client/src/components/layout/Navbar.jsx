@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faEthernet, faCloud } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faEthernet, faCloud, faRulerHorizontal } from '@fortawesome/free-solid-svg-icons';
 
 export default () => {
   const [toggle, setToggle] = useState(false);
@@ -25,25 +25,30 @@ export default () => {
           </span>
         </NavbarBrand>
         <NavbarToggler onClick={() => setToggle(!toggle)} />
-        <Collapse isOpen={toggle} navbar className="justify-content-between">
-          <Nav navbar>
-            <NavItem>
-              <NavLink tag={Link} to="/zones" className="text-light">
-                Zones
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <Nav navbar>
-            <NavItem>
-              <NavLink tag={Link} to="/accounts" className="text-light">
-                <FontAwesomeIcon icon={faCloud} />
-              </NavLink>
-            </NavItem>
+        <Collapse isOpen={toggle} navbar className="w-100">
+          <Nav navbar className="justify-content-around w-100">
+
             <NavItem>
               <NavLink tag={Link} to="/hostnames" className="text-light">
-                <FontAwesomeIcon icon={faBolt} />
+                <FontAwesomeIcon icon={faBolt} className="mr-1" />
+                hostnames
               </NavLink>
             </NavItem>
+
+            <NavItem>
+              <NavLink tag={Link} to="/zones" className="text-light">
+                <FontAwesomeIcon icon={faRulerHorizontal} className="mr-1" />
+                zones
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink tag={Link} to="/accounts" className="text-light">
+                <FontAwesomeIcon icon={faCloud} className="mr-1" />
+                accounts
+              </NavLink>
+            </NavItem>
+
           </Nav>
         </Collapse>
       </Navbar>
