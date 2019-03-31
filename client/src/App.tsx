@@ -9,6 +9,7 @@ import Register from './components/auth/Register';
 import AccountsIndex from './components/accounts/AccountsIndex';
 import ZonesListing from './components/accounts/ZonesListing';
 import ZonesIndex from './components/zones/ZonesIndex';
+import HostnamesIndex from './components/hostnames/HostnamesIndex';
 
 export default () => {
   // TODO: Validate authentication token
@@ -25,6 +26,7 @@ export default () => {
         <Route exact path="/accounts" render={(props) => <AccountsIndex {...props} />} />
         <Route exact path="/accounts/:id/zones" render={(props) => <ZonesListing id={props.match.params.id} {...props} />} />
         <Route exact path="/zones" render={(props) => <ZonesIndex {...props} />} />
+        <Route exact path="/hostnames" render={(props) => <HostnamesIndex {...props} />} />
         <Footer />
       </div>
     </Router>
