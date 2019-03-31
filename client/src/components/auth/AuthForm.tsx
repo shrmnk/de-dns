@@ -46,23 +46,17 @@ export default ({ endpoint, history }: Props) => {
 
           if (authorization) {
             localStorage.setItem('authorization', authorization);
-            history.push('/');
+            history.push('/hostnames');
           } else {
-            alert('Please sign in!');
+            alert('Success! Please sign in!');
             history.push('/auth/login');
           }
-        } else if(res.status == 400) {
-          // Registration probably failed
-          res.json().then((data) => {
-            alert("Error: " + JSON.stringify(data));
-          });
-        } else if (res.status === 401) {
-          // Failed to login
-          // Obtain error from json.error
-          res.json().then((data) => {
-            alert("Error: " + data.error);
-          });
+
+          return;
         }
+        res.json().then((data) => {
+          alert("Error: " + data.errors.join(', '));
+        });
       })
       .catch((err) => {
         console.error(err);
