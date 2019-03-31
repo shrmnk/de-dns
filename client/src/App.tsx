@@ -13,8 +13,8 @@ class App extends Component {
         <div>
           <Navbar />
           <Route exact path="/" component={Home} />
-          <Route exact path="/auth/login" component={Login} />
-          <Route exact path="/auth/register" component={Register} />
+          <Route exact path="/auth/login" render={(props) => <Login {...props} />} />
+          <Route exact path="/auth/register" render={(props) => <Register {...props} />} />
           <Footer />
         </div>
       </Router>
