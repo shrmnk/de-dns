@@ -7,6 +7,7 @@ import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import Register from './components/auth/Register';
 import AccountsIndex from './components/accounts/AccountsIndex';
+import ZonesListing from './components/accounts/ZonesListing';
 
 export default () => {
   // TODO: Validate authentication token
@@ -21,6 +22,7 @@ export default () => {
         <Route exact path="/auth/logout" render={(props) => <Logout setLoggedIn={setLoggedIn} {...props} />} />
         <Route exact path="/auth/register" render={(props) => <Register {...props} />} />
         <Route exact path="/accounts" render={(props) => <AccountsIndex {...props} />} />
+        <Route exact path="/accounts/:id/zones" render={(props) => <ZonesListing id={props.match.params.id} {...props} />} />
         <Footer />
       </div>
     </Router>
