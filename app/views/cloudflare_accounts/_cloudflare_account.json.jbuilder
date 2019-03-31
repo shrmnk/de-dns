@@ -1,1 +1,1 @@
-json.call(cloudflare_account, :email, :name)
+json.call(cloudflare_account, :email, :name, :id)
