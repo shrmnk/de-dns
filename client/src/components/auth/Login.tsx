@@ -10,10 +10,11 @@ import AuthForm from './AuthForm';
 import { History } from 'history';
 
 interface Props {
-  history: History
+  history: History,
+  setLoggedIn: (arg0: boolean) => void
 };
 
-export default ({ history }: Props) => (
+export default ({ history, setLoggedIn }: Props) => (
   <Container>
     <Row>
       <Col>
@@ -22,7 +23,7 @@ export default ({ history }: Props) => (
     </Row>
     <Row className="justify-content-center">
       <Col xs={12} sm={10} md={8} lg={6}>
-        <AuthForm endpoint="/login" history={history} />
+        <AuthForm endpoint="/login" history={history} setLoggedIn={setLoggedIn} />
       </Col>
     </Row>
     <Row className="mt-2">

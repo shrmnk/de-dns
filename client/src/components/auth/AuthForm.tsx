@@ -13,10 +13,11 @@ import { History } from 'history';
 
 interface Props {
   endpoint: string,
-  history: History
+  history: History,
+  setLoggedIn?: (arg0: boolean) => void
 }
 
-export default ({ endpoint, history }: Props) => {
+export default ({ endpoint, history, setLoggedIn }: Props) => {
 
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ export default ({ endpoint, history }: Props) => {
 
           if (authorization) {
             localStorage.setItem('authorization', authorization);
+            setLoggedIn && setLoggedIn(true);
             history.push('/hostnames');
           } else {
             alert('Success! Please sign in!');

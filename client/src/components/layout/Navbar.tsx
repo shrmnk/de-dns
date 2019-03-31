@@ -10,9 +10,13 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBolt, faEthernet, faCloud, faRulerHorizontal, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { faBolt, faEthernet, faCloud, faRulerHorizontal, faUserAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default () => {
+interface Props {
+  isLoggedIn: boolean
+};
+
+export default ({ isLoggedIn }: Props) => {
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -49,12 +53,23 @@ export default () => {
               </NavLink>
             </NavItem>
 
-            <NavItem>
-              <NavLink tag={Link} to="/auth/login" className="text-light">
-                <FontAwesomeIcon icon={faUserAlt} className="mr-1" />
-                login
+            {!isLoggedIn &&
+              <NavItem>
+                <NavLink tag={Link} to="/auth/login" className="text-light">
+                  <FontAwesomeIcon icon={faUserAlt} className="mr-1" />
+                  login
               </NavLink>
-            </NavItem>
+              </NavItem>
+            }
+
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={Link} to="/auth/logout" className="text-light">
+                  <FontAwesomeIcon icon={faSignOutAlt} className="mr-1" />
+                  logout
+                </NavLink>
+              </NavItem>
+            }
           </Nav>
         </Collapse>
       </Navbar>
