@@ -101,7 +101,7 @@ export default ({ history, id }: Props) => {
     <Container>
       <Row>
         <Col>
-          <h1 className="text-center">Accounts</h1>
+          <h1 className="text-center">Available Zones</h1>
         </Col>
       </Row>
       <Row>
