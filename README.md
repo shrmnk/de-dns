@@ -1,24 +1,28 @@
-# README
+# de-dns
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+de-dyndns your hosts and use your existing Cloudflare domain.
 
-Things you may want to cover:
+Still a work-in-progress. This was started as a personal project to shifting out of dyndns subscriptions which charges more than a single .com domain for dynamically updating hosts.
 
-* Ruby version
+# Developing
 
-* System dependencies
+### Requirements
 
-* Configuration
+- Ruby 2.5.5
+- Postgres >= 9
+- NodeJS >= 10 (or any ExecJS-compatible)
 
-* Database creation
+### Local development environment
 
-* Database initialization
+Copy .env.sample and modify the contents to suit your local environment.
 
-* How to run the test suite
+1. Install gems: `bundle install`
+2. Install JS packages: `yarn --cwd client install`
+3. Run backend on port 3001: `PORT=3001 rails s`
+4. Run frontend: `yarn --cwd client start`
 
-* Services (job queues, cache servers, search engines, etc.)
+# Notes
 
-* Deployment instructions
+This project is rough around the edges and could definitely do with some polish. It started as an experiment to using Cloudflare as the backend to a dynamically-updating DNS service, and using vanilla Create React App + Rails API Only, but with OAuth scoped permissions and the wide availability of alternatives such as http://www.duckdns.org/ , this project started to become less and less important to my work.
 
-* ...
+Feel free to raise pull requests.
